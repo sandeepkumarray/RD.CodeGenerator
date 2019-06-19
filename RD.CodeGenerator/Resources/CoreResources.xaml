@@ -1,0 +1,161 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:b="clr-namespace:RD.CodeGenerator.Utility"
+                    xmlns:vm_workflow="clr-namespace:RD.CodeGenerator.ViewModel"
+                    xmlns:vw_workflow="clr-namespace:RD.CodeGenerator.View">
+
+
+    <Style x:Key="PersistTabItemStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid Height="25" Width="Auto">
+                        <Border Name="Border" BorderThickness="1,1,1,1" Background="#293955"  BorderBrush="#293955" >
+                        </Border>
+                        <DockPanel Width="Auto" >
+                            <Button 
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                        Command="{Binding Path=CloseCommand}"
+                                ToolTip="Close"
+                                        Content="X"
+                                        Background="#979797"
+                                        Foreground="White"
+                                        Cursor="Hand"
+                                        DockPanel.Dock="Right"
+                                        Focusable="False"
+                                        FontFamily="Courier" 
+                                        FontSize="9"
+                                        FontWeight="Bold"  
+                                        Margin="0,1,0,0"
+                                        Padding="0"
+                                        VerticalContentAlignment="Bottom"
+                                        Width="16" Height="16" 
+                                        Visibility="{Binding Path=CloseBtnVisibility}"/>
+
+                            <Button Visibility="{Binding Path=AddNewTabVisibility}"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch"
+                                        Command="{Binding Path=AddNewTabCommand}"
+                                         BorderThickness="0"
+                                        Background="#979797"
+                                        Width="25" 
+                                        Height="20"
+                                        ToolTip="New tab">
+                                <Button.Content>
+                                    <Image Source="/DTM;component/Images/AddNewTabIcon.jpg"/>
+                                </Button.Content>
+                            </Button>
+                            <TextBlock x:Name="header" Foreground ="White" VerticalAlignment="Center" Text="{Binding  Path=DisplayName}"/>
+
+                            <!--<ContentPresenter 
+                                    Content="{Binding Path=DisplayName}" 
+                                    VerticalAlignment="Center" >
+                                
+                            </ContentPresenter>-->
+
+                        </DockPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="White" />
+                            <!--<Setter TargetName="Border" Property="Width" Value="150" />-->
+                            <Setter Property="Background" Value="#293955" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter Property="Foreground" Value="#293955" />
+                            <!--<Setter TargetName="Border" Property="Width" Value="150" />-->
+                            <Setter TargetName="Border" Property="Background" Value="#293955" />
+                        </Trigger>
+                        <DataTrigger Binding="{Binding IsNewTaskAvailable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" Value="true">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard  x:Name="AlertStoryBoard">
+                                    <Storyboard Storyboard.TargetName="header" AutoReverse="True" RepeatBehavior="Forever" 
+                                                Storyboard.TargetProperty="Foreground.Color">
+                                        <ColorAnimation To="Red" AutoReverse="True" Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <RemoveStoryboard BeginStoryboardName="AlertStoryBoard" />
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsNewTaskAvailable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" Value="false">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard x:Name="NormalStoryBoard">
+                                    <Storyboard  Storyboard.TargetName="header" AutoReverse="True" RepeatBehavior="Forever"
+                                                Storyboard.TargetProperty="Foreground.Color">
+                                        <ColorAnimation From="White" To="White" AutoReverse="True" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <RemoveStoryboard BeginStoryboardName="NormalStoryBoard" />
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="HyperlinkStyle" TargetType="{x:Type Hyperlink}">
+        <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+    </Style>
+
+    <DataTemplate x:Key="CommandsTemplate">
+        <ItemsControl  IsTabStop="False" ItemsSource="{Binding}" Margin="6,2">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Margin="2,6">
+            <Hyperlink FontFamily="Arial" FontSize="12" Foreground="White" Command="{Binding Path=Command}" Style="{StaticResource HyperlinkStyle}">
+              <TextBlock Text="{Binding Path=DisplayName}" />
+            </Hyperlink>
+          </TextBlock>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DataTemplate>
+
+    <DataTemplate x:Key="WorkspacesTemplate">
+        <TabControl FontSize="12" HorizontalContentAlignment="Stretch"
+          IsSynchronizedWithCurrentItem="True" 
+          ItemsSource="{Binding}" 
+          b:TabContent.IsCached="True"
+          ItemContainerStyle="{StaticResource PersistTabItemStyle}"
+          Margin="0" Padding="0" BorderThickness="0" Background="Transparent"
+          >
+        </TabControl>
+    </DataTemplate>
+
+    <Style x:Key="MainHCCStyle" TargetType="{x:Type HeaderedContentControl}">
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border BorderBrush="LightGray" BorderThickness="0 0 0 1" Margin="4" Padding="4" SnapsToDevicePixels="True" >
+                        <TextBlock FontSize="12" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Text="{TemplateBinding Content}" />
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
+                    <DockPanel>
+                        <ContentPresenter DockPanel.Dock="Top" ContentSource="Header" ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                        <ContentPresenter ContentSource="Content" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate DataType="{x:Type vm_workflow:CSharpClassGeneratorViewModel}">
+        <vw_workflow:CSharpClassGeneratorView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm_workflow:CSharpBulkClassGeneratorViewModel}">
+        <vw_workflow:CSharpBulkClassGeneratorView/>
+    </DataTemplate>
+</ResourceDictionary>

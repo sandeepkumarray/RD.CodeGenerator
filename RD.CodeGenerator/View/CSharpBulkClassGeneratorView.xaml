@@ -1,0 +1,155 @@
+﻿<UserControl x:Class="RD.CodeGenerator.View.CSharpBulkClassGeneratorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras"
+             mc:Ignorable="d" Height="800" Width="1050" Background="#293955" HorizontalAlignment="Left">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="1" Grid.Column="0" Margin="2" Name="lblClassName" Content="Class Datas" Foreground="White" FontFamily="Segoe UI" FontSize="16"/>
+        <ListBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="9" Margin="2" Height="300"
+                 Name="lstClassProperties" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                 ItemsSource="{Binding Path=ClassDatas,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                 DisplayMemberPath="ClassName">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <cmd:EventToCommand Command="{Binding EditClassDataCommand}"  
+                                CommandParameter="{Binding ElementName=lstClassProperties, Path=SelectedItem}" />                    
+                </i:EventTrigger>
+            </i:Interaction.Triggers>            
+        </ListBox>
+
+        <Button Grid.Row="2" Grid.Column="0" Margin="2" Content="Add Class Data" Width="150" Height="30" Name="btnAddClassData"
+                Foreground="Black" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Left"
+                Command="{Binding Path=AddClassDataCommand}"/>
+
+        <Button Grid.Row="10" Grid.Column="2" Margin="2" Content="Process" Width="150" Height="30" Foreground="Black" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Left"
+                Command="{Binding Path=CSharpBulkClassFileCommand}"/>
+
+        <CheckBox Grid.Row="1" Grid.Column="4" Content="Use Default Settings" Foreground="White" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center"
+                  IsChecked="{Binding Path=IsUseDefaultSettings,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Grid Grid.Row="1" Grid.Column="4" Background="#9CAAC1" Grid.RowSpan="20" Grid.ColumnSpan="5" Height="600"
+              Visibility="{Binding SettingsVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <Grid.Resources>
+                <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter"/>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Row="0" Grid.Column="0" Margin="2" Name="cbIsIncludeUsings" Content="Is Include Usings" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                      IsChecked="{Binding Path=CSharpClassFileSettings.IsIncludeUsings,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Grid.Row="1" Grid.Column="0" Margin="2" Name="cbIsIncludeNameSpace" Content="Is Include NameSpace" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                      IsChecked="{Binding Path=CSharpClassFileSettings.IsIncludeNameSpace,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="2" Grid.Column="0" Margin="2" Name="lblNameSpace" Content="Enter NameSpace" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                   Visibility="{Binding Path=CSharpClassFileSettings.IsIncludeNameSpace,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource bool2VisibilityConverter}}"/>
+            <TextBox Grid.Row="2" Grid.Column="2" Margin="2" Name="txtNameSpace" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                     Text="{Binding Path=CSharpClassFileSettings.NameSpace,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                     Visibility="{Binding Path=CSharpClassFileSettings.IsIncludeNameSpace,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource bool2VisibilityConverter}}"/>
+            <CheckBox Grid.Row="4" Grid.Column="0" Margin="2" Name="cbIsSerializable" Content="Is Serializable" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                      IsChecked="{Binding Path=CSharpClassFileSettings.IsSerializable,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Grid.Row="5" Grid.Column="0" Margin="2" Name="cbIsXmlRoot" Content="Is XmlRoot" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                      IsChecked="{Binding Path=CSharpClassFileSettings.IsXmlRoot,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Grid.Row="6" Grid.Column="0" Margin="2" Name="cbIsIncludeDefaultConstructor" Content="Is Include Default Constructor" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                      IsChecked="{Binding Path=CSharpClassFileSettings.IsIncludeDefaultConstructor,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Grid.Row="7" Grid.Column="0" Margin="2" Name="cbIsIncludeParametrizedConstructor" Content="Is Include Parametrized Constructor" Foreground="Black" FontFamily="Segoe UI" FontSize="16" Width="300"
+                      IsChecked="{Binding Path=CSharpClassFileSettings.IsIncludeParametrizedConstructor,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="8" Margin="2" Name="lblParameters" Content="Enter Parameters" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                   Visibility="{Binding Path=CSharpClassFileSettings.IsIncludeParametrizedConstructor,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource bool2VisibilityConverter}}"/>
+            <TextBox Grid.Row="8" Grid.Column="2" Margin="2" Name="txtParameters" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                     Text="{Binding Path=CSharpClassFileSettings.Parameters,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                     Visibility="{Binding Path=CSharpClassFileSettings.IsIncludeParametrizedConstructor,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource bool2VisibilityConverter}}"/>
+            <Label Grid.Row="9" Grid.Column="0" Margin="2" Name="lblCSharpFilePath" Content="Enter CSharp File Path" Foreground="Black" FontFamily="Segoe UI" FontSize="16"/>
+            <TextBox Grid.Row="9" Grid.Column="2" Margin="2" Name="txtCSharpFilePath" Foreground="Black" FontFamily="Segoe UI" FontSize="16"                     
+                     Text="{Binding Path=CSharpClassFileSettings.CSharpFilePath,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="10" Grid.Column="0" Margin="2" Name="lblCSharpFileExtension" Content="Enter CSharp File Extension" Foreground="Black" FontFamily="Segoe UI" FontSize="16"/>
+            <TextBox Grid.Row="10" Grid.Column="2" Margin="2" Name="txtCSharpFileExtension" Foreground="Black" FontFamily="Segoe UI" FontSize="16"                     
+                     Text="{Binding Path=CSharpClassFileSettings.CSharpFileExtension,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Grid.Row="11" Grid.Column="0" Margin="2" Name="lblIsAdditionalCodeSnippet" Content="Is Additional Code Snippet" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                      IsChecked="{Binding Path=CSharpClassFileSettings.IsAdditionalCodeSnippet,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="12" Grid.Column="0" Margin="2" Name="lblAdditionalCodeSnippet" Content="Enter Additional Code Snippet" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                   Visibility="{Binding Path=CSharpClassFileSettings.IsAdditionalCodeSnippet,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource bool2VisibilityConverter}}"/>
+            <TextBox Grid.Row="12" Grid.Column="2" Margin="2" Name="txtAdditionalCodeSnippet" Foreground="Black" FontFamily="Segoe UI" FontSize="16"                    
+                     Text="{Binding Path=CSharpClassFileSettings.AdditionalCodeSnippet,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                     Visibility="{Binding Path=CSharpClassFileSettings.IsAdditionalCodeSnippet,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource bool2VisibilityConverter}}"/>
+            <CheckBox Grid.Row="13" Grid.Column="0" Margin="2" Name="lblIsClassNameCamelCasing" Content="Is Class Name Camel Casing" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                      IsChecked="{Binding Path=CSharpClassFileSettings.IsClassNameCamelCasing,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="14" Grid.Column="0" Margin="2" Name="lblSeparator" Content="Enter Separator" Foreground="Black" FontFamily="Segoe UI" FontSize="16"/>
+            <TextBox Grid.Row="14" Grid.Column="2" Margin="2" Name="txtSeparator" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                     Text="{Binding Path=CSharpClassFileSettings.Separator,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="15" Grid.Column="0" Margin="2" Name="lblUserDefinedUsings" Content="Enter User Defined Usings" Foreground="Black" FontFamily="Segoe UI" FontSize="16"/>
+            <TextBox Grid.Row="15" Grid.Column="2" Margin="2" Name="txtUserDefinedUsings" Foreground="Black" FontFamily="Segoe UI" FontSize="16"/>
+            <Button Grid.Row="15" Grid.Column="4" Margin="2" Content="+" Width="30" Height="30" HorizontalAlignment="Left" FontSize="22" Name="btnAddUserDefinedUsings"
+                    CommandParameter="{Binding Path=Text,ElementName=txtUserDefinedUsings}"
+                    Command="{Binding Path=AddUserDefinedUsingsCommand}" />
+            <ListBox Grid.Row="16" Grid.Column="2" Margin="2" Height="150" Name="lstUserDefinedUsings"
+                     ItemsSource="{Binding Path=CSharpClassFileSettings.UserDefinedUsings,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Row="16" Grid.Column="4" Margin="2" Content="-" Width="30" Height="30" HorizontalAlignment="Left" FontSize="22" VerticalAlignment="Top"
+                    CommandParameter="{Binding Path=SelectedValue,ElementName=lstUserDefinedUsings}"
+                    Command="{Binding Path=DeleteUserDefinedUsingsCommand}"/>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="RD.CodeGenerator.View.ClassPropertyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Height="300" Width="500" Background="#293955" HorizontalAlignment="Left">
+    <Grid>
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter"/>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="1" Grid.Column="0"  Name="lblClassPropertyName" Content="Enter Class Property Name" Foreground="White" FontFamily="Segoe UI" FontSize="16"/>
+        <Label Grid.Row="2" Grid.Column="0"  Name="lblClassPropertyType" Content="Enter Class Property Type" Foreground="White" FontFamily="Segoe UI" FontSize="16"/>
+
+        <TextBox Grid.Row="1" Grid.Column="2" Margin="2" Name="txtClassPropertyName" Foreground="Black" FontFamily="Segoe UI" FontSize="16"
+                 Text="{Binding Path=ClassPropertyObj.PropName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Row="2" Grid.Column="2" Margin="2" Name="ddlClassPropertyType" Foreground="Black" FontFamily="Segoe UI" FontSize="16" IsEditable="True"
+                  SelectedValue="{Binding Path=ClassPropertyObj.PropType}"
+            ItemsSource="{Binding Path=ClassPropertyObj.PropTypeList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+        </ComboBox>
+
+        <CheckBox Grid.Row="3" Grid.Column="0"  Margin="2" Name="cbIsGenericListType" Content="Is Generic List Type" Foreground="White" FontFamily="Segoe UI" FontSize="16"
+                       IsChecked="{Binding Path=ClassPropertyObj.IsGenericListType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="4" Grid.Column="0"  Name="lblGenericListType" Content="Select Generic List Type" Foreground="White" FontFamily="Segoe UI" FontSize="16"
+               Visibility="{Binding Path=ClassPropertyObj.IsGenericListType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource bool2VisibilityConverter}}"/>
+        <ComboBox Grid.Row="4" Grid.Column="2" Margin="2" Name="ddlGenericListType" Foreground="Black" FontFamily="Segoe UI" FontSize="16" IsEditable="True"
+                  Visibility="{Binding Path=ClassPropertyObj.IsGenericListType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource bool2VisibilityConverter}}"
+                   SelectedValue="{Binding Path=ClassPropertyObj.GenericListType}"
+            ItemsSource="{Binding Path=ClassPropertyObj.GenericListTypeList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+           
+        </ComboBox>
+
+        <CheckBox Grid.Row="5" Grid.Column="0"  Margin="2" Name="cbIsXmlElement" Content="Is Xml Element" Foreground="White" FontFamily="Segoe UI" FontSize="16"
+                     IsChecked="{Binding Path=ClassPropertyObj.IsXmlElement,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <CheckBox Grid.Row="6" Grid.Column="0"  Margin="2" Name="cbIsXmlAttribute" Content="Is Xml Attribute" Foreground="White" FontFamily="Segoe UI" FontSize="16"
+                     IsChecked="{Binding Path=ClassPropertyObj.IsXmlAttribute,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <CheckBox Grid.Row="7" Grid.Column="0"  Margin="2" Name="cbIsXmlText" Content="Is Xml Text" Foreground="White" FontFamily="Segoe UI" FontSize="16"
+                      IsChecked="{Binding Path=ClassPropertyObj.IsXmlText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Button Grid.Row="8" Grid.Column="2" Margin="2" Content="{Binding Path=ClassPropertyObj.PropAddUpdateText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="150" Height="30" Foreground="Black" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Left"
+                Name="bynAddClassProperty" Command="{Binding AddClassPropertyCommand}"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,97 @@
+﻿<Window x:Class="RD.CodeGenerator.Dashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dashboard" Height="600" Width="750" Background="#293955"
+        xmlns:s="NavigationPane"
+        xmlns:vw="clr-namespace:RD.CodeGenerator.View"
+        xmlns:vm="clr-namespace:RD.CodeGenerator.ViewModel"  
+        xmlns:RdCoreWPF="clr-namespace:RDCore.WPF.Controls;assembly=RDCore.WPF"
+        AllowsTransparency="False" WindowStyle="SingleBorderWindow" 
+        WindowState="Maximized" WindowStartupLocation="CenterScreen"    
+        Loaded="Window_Loaded"
+        MinWidth="550" MinHeight="400">
+    <Window.Resources>
+        <ResourceDictionary Source="/../Resources/CoreResources.xaml"/>
+    </Window.Resources>
+    <Grid>
+        <DockPanel>
+            <DockPanel.DataContext>
+                <vm:DashboardViewModel></vm:DashboardViewModel>
+            </DockPanel.DataContext>
+
+            <s:NavigationPaneExpander x:Name="navigationPaneExpander"
+                                  Width="250"
+                                  Margin="0,0,2,1"
+                                  CloseButtonClick="navigationPaneExpander_CloseButtonClick"
+                                  DockPanel.Dock="Left"
+                                  FontSize="9.333"
+                                  Header="Workflow"
+                                  IsHeaderVisible="True"
+                                  s:NavigationPaneExpander.CanResize="False"
+                                  Orientation="Left">
+                <Grid x:Name="CanResizeContent" s:NavigationPaneExpander.CanResize="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <HeaderedContentControl Height="Auto"
+                                        Content="{Binding Path=WorkflowCommands}"
+                                        ContentTemplate="{StaticResource CommandsTemplate}"
+                                        Style="{StaticResource MainHCCStyle}" >
+
+                        </HeaderedContentControl>
+                    </ScrollViewer>
+                </Grid>
+
+            </s:NavigationPaneExpander>
+            <Border Margin="2,2,4,4"
+                Background="#293955"
+                BorderBrush="{Binding BorderBrush,
+                                      ElementName=navigationPane}"
+                BorderThickness="1"
+                Padding="6">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="4"
+                                  Opacity="0.3"
+                                  ShadowDepth="0"
+                                  Color="#AC000000" />
+                </Border.Effect>
+                <Grid>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="205"/>
+                            <RowDefinition Height="205"/>
+                            <RowDefinition Height="205"/>
+                            <RowDefinition Height="205"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <RdCoreWPF:TileItem x:Name="CharsTileItem" DataContext="{Binding DataTileItemModel}" Grid.Column="0" Grid.Row="1" Margin="5"
+                                                    CanSlide="False"/>
+                        <RdCoreWPF:TileItemSquare x:Name="PlayersTileItem" DataContext="{Binding Data1TileItemModel}" Grid.Column="1" Grid.Row="1" Margin="5"
+                                                    TitleTitle="Manage Players" CanSlide="False"/>
+                        <RdCoreWPF:TileItemSquare x:Name="GameDataTileItem" DataContext="{Binding Data2TileItemModel}" Grid.Column="2" Grid.Row="1" Margin="5"
+                                                    TitleTitle="Manage Data" CanSlide="False"/>
+                        <RdCoreWPF:TileItemSquare x:Name="TagsTileItem" DataContext="{Binding Data3TileItemModel}" Grid.Column="3" Grid.Row="1" Margin="5"
+                                                    TitleTitle="Manage Data" CanSlide="False"/>
+                        <RdCoreWPF:TileItem x:Name="PowersTypeTileItem" DataContext="{Binding Data4TileItemModel}" Grid.Column="0" Grid.Row="2" Margin="5"
+                                                    CanSlide="False"/>
+                        <RdCoreWPF:TileItemSquare x:Name="CharPropertiesTileItem" DataContext="{Binding Data5TileItemModel}" Grid.Column="1" Grid.Row="2" Margin="5"
+                                                    TitleTitle="Manage Data" CanSlide="False"/>
+                        <RdCoreWPF:TileItemSquare x:Name="PowersTileItem" DataContext="{Binding Data6TileItemModel}" Grid.Column="2" Grid.Row="2" Margin="5"
+                                                    TitleTitle="Manage Data" CanSlide="False"/>
+                    </Grid>
+                    <ContentControl Name="MainContentControl" Content="{Binding Path=WorkSpaces}"
+                                        ContentTemplate="{StaticResource WorkspacesTemplate}" Visibility="Visible">
+                    </ContentControl>
+                </Grid>
+            </Border>
+        </DockPanel>
+    </Grid>
+</Window>
